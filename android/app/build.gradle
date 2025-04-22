@@ -53,7 +53,9 @@ react {
     /* Autolinking */
     autolinkLibrariesWithApp()
 }
-
+project.ext.react = [
+  enableHermes: true
+]
 /**
  * Set this to true to Run Proguard on Release builds to minify the Java bytecode.
  */
@@ -100,11 +102,22 @@ android {
         release {
             // Caution! In production, you need to generate your own keystore file.
             // see https://reactnative.dev/docs/signed-apk-android.
+            minifyEnabled true
+            shrinkResources true
             signingConfig signingConfigs.debug
-            minifyEnabled enableProguardInReleaseBuilds
+            // minifyEnabled enableProguardInReleaseBuilds
             proguardFiles getDefaultProguardFile("proguard-android.txt"), "proguard-rules.pro"
+            
         }
     }
+     splits {
+    abi {
+      enable true
+      reset()
+      include "armeabi-v7a", "arm64-v8a", "x86", "x86_64"
+      universalApk false
+    }
+  }
 }
 
 dependencies {
